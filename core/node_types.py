@@ -2,8 +2,8 @@
 from collections import namedtuple
 
 from helper_visitors import LabelVisitor
-
-
+from core.ast_helper import line_mapping
+import os
 ControlFlowNode = namedtuple(
     'ControlFlowNode',
     (
@@ -48,6 +48,12 @@ class Node():
         self.outgoing = list()
 
     def as_dict(self):
+        path=os.path.abspath(self.path)
+        if path in line_mapping and isinstance(line_mapping[path][self.line_number],tuple):
+            self.path = line_mapping[path][self.line_number][0]
+            self.line_number = line_mapping[path][self.line_number][1]
+        elif path in line_mapping:
+            self.line_number = line_mapping[path][self.line_number]
         return {
             'label': self.label.encode('utf-8').decode('utf-8'),
             'line_number': self.line_number,
@@ -59,15 +65,16 @@ class Node():
         setting its outgoing and the successors ingoing."""
         if isinstance(self, ConnectToExitNode) and not isinstance(successor, EntryOrExitNode):
             return
-
-        self.outgoing.append(successor)
-        successor.ingoing.append(self)
+        if successor not in self.outgoing:
+            self.outgoing.append(successor)
+            successor.ingoing.append(self)
 
     def connect_predecessors(self, predecessors):
         """Connect all nodes in predecessors to this node."""
         for n in predecessors:
-            self.ingoing.append(n)
-            n.outgoing.append(self)
+            if n not in self.ingoing:
+                self.ingoing.append(n)
+                n.outgoing.append(self)
 
     def __str__(self):
         """Print the label of the node."""

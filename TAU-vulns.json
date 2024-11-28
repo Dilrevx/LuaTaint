@@ -1,0 +1,712 @@
+{
+    "generated_at": "2024-11-25T05:39:47Z",
+    "vulnerabilities": [
+        {
+            "source": {
+                "label": "~call_2 = ret_luci.http.formvalue('port_val')",
+                "line_number": 120,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/lte.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_5 = ret_luci.sys.exec('uci -c /tmp/ set qos_status_sw.qos.qos_status_sw='..qos_check_sw)",
+                "line_number": 124,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/lte.lua"
+            },
+            "sink_trigger_word": "sys.exec(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "qos_check_sw = ~call_2",
+                    "line_number": 120,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/lte.lua"
+                },
+                {
+                    "label": "~call_5 = ret_luci.sys.exec('uci -c /tmp/ set qos_status_sw.qos.qos_status_sw='..qos_check_sw)",
+                    "line_number": 124,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/lte.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "cid",
+                "line_number": 220,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/lte.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_2 = ret_uci:foreach('qos', 'basic', stonumber(cid) == tonumber(s.'cid')luci.sys.exec('ltectl setcgact 0 '..cid)s.'cid'qos_basic.'cid' = s.'cid's.'qci'qos_basic.'qci' = s.'qci's.'dlgbr'qos_basic.'dlgbr' = s.'dlgbr's.'ulgbr'qos_basic.'ulgbr' = s.'ulgbr's.'dlmbr'qos_basic.'dlmbr' = s.'dlmbr's.'ulmbr'qos_basic.'ulmbr' = s.'ulmbr's.'enable'qos_basic.'enable' = s.'enable'qos_basic.'.name' = s.'.name')",
+                "line_number": 223,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/lte.lua"
+            },
+            "sink_trigger_word": "sys.exec(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "~call_2 = ret_uci:foreach('qos', 'basic', stonumber(cid) == tonumber(s.'cid')luci.sys.exec('ltectl setcgact 0 '..cid)s.'cid'qos_basic.'cid' = s.'cid's.'qci'qos_basic.'qci' = s.'qci's.'dlgbr'qos_basic.'dlgbr' = s.'dlgbr's.'ulgbr'qos_basic.'ulgbr' = s.'ulgbr's.'dlmbr'qos_basic.'dlmbr' = s.'dlmbr's.'ulmbr'qos_basic.'ulmbr' = s.'ulmbr's.'enable'qos_basic.'enable' = s.'enable'qos_basic.'.name' = s.'.name')",
+                    "line_number": 223,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/lte.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "iface",
+                "line_number": 378,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_3 = ret_luci.sys.call('env -i /sbin/ifup %q >/dev/null 2>/dev/null' % iface)",
+                "line_number": 382,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "sink_trigger_word": "sys.call(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "~call_3 = ret_luci.sys.call('env -i /sbin/ifup %q >/dev/null 2>/dev/null' % iface)",
+                    "line_number": 382,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "iface",
+                "line_number": 390,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_4 = ret_luci.sys.call('env -i /sbin/ifdown %q >/dev/null 2>/dev/null' % iface)",
+                "line_number": 395,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "sink_trigger_word": "sys.call(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "~call_4 = ret_luci.sys.call('env -i /sbin/ifdown %q >/dev/null 2>/dev/null' % iface)",
+                    "line_number": 395,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "iface",
+                "line_number": 403,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_4 = ret_luci.sys.call('env -i /sbin/ifdown %q >/dev/null 2>/dev/null' % iface)",
+                "line_number": 408,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "sink_trigger_word": "sys.call(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "~call_4 = ret_luci.sys.call('env -i /sbin/ifdown %q >/dev/null 2>/dev/null' % iface)",
+                    "line_number": 408,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "addr",
+                "line_number": 496,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_2 = ret_io.popen(cmd % addr)",
+                "line_number": 500,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "~call_2 = ret_io.popen(cmd % addr)",
+                    "line_number": 500,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "cmd",
+                "line_number": 496,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_2 = ret_io.popen(cmd % addr)",
+                "line_number": 500,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "~call_2 = ret_io.popen(cmd % addr)",
+                    "line_number": 500,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "addr",
+                "line_number": 518,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_3 = ret_io.popen(cmd % addr)",
+                "line_number": 500,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "temp_1_addr = addr",
+                    "line_number": 519,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "addr = temp_1_addr",
+                    "line_number": 496,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "~call_3 = ret_io.popen(cmd % addr)",
+                    "line_number": 500,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "addr",
+                "line_number": 522,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_3 = ret_io.popen(cmd % addr)",
+                "line_number": 500,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "temp_1_addr = addr",
+                    "line_number": 523,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "addr = temp_1_addr",
+                    "line_number": 496,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "~call_3 = ret_io.popen(cmd % addr)",
+                    "line_number": 500,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "addr",
+                "line_number": 526,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_3 = ret_io.popen(cmd % addr)",
+                "line_number": 500,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "temp_1_addr = addr",
+                    "line_number": 527,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "addr = temp_1_addr",
+                    "line_number": 496,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "~call_3 = ret_io.popen(cmd % addr)",
+                    "line_number": 500,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "addr",
+                "line_number": 530,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_3 = ret_io.popen(cmd % addr)",
+                "line_number": 500,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "temp_1_addr = addr",
+                    "line_number": 531,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "addr = temp_1_addr",
+                    "line_number": 496,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "~call_3 = ret_io.popen(cmd % addr)",
+                    "line_number": 500,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "addr",
+                "line_number": 534,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_3 = ret_io.popen(cmd % addr)",
+                "line_number": 500,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "temp_1_addr = addr",
+                    "line_number": 535,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "addr = temp_1_addr",
+                    "line_number": 496,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "~call_3 = ret_io.popen(cmd % addr)",
+                    "line_number": 500,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "iface",
+                "line_number": 76,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/status.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_2 = ret_io.popen('luci-bwc -i %q 2>/dev/null' % iface)",
+                "line_number": 79,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/status.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "~call_2 = ret_io.popen('luci-bwc -i %q 2>/dev/null' % iface)",
+                    "line_number": 79,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/status.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "iface",
+                "line_number": 94,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/status.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_2 = ret_io.popen('luci-bwc -r %q 2>/dev/null' % iface)",
+                "line_number": 97,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/status.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "~call_2 = ret_io.popen('luci-bwc -r %q 2>/dev/null' % iface)",
+                    "line_number": 97,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/status.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_1 = ret_luci.http.formvalue('file_name')",
+                "line_number": 349,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_8 = ret_io.open(ex_file)",
+                "line_number": 361,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "sink_trigger_word": "io.open",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "file_name = ~call_1",
+                    "line_number": 349,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "ex_file = '/mnt/emmc/logsave/'..file_name",
+                    "line_number": 360,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "~call_8 = ret_io.open(ex_file)",
+                    "line_number": 361,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_1 = ret_luci.http.formvalue('file_name')",
+                "line_number": 349,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_10 = ret_luci.sys.exec('rm -rf /mnt/emmc/logsave/'..file_name)",
+                "line_number": 365,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "sink_trigger_word": "sys.exec(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "file_name = ~call_1",
+                    "line_number": 349,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "~call_10 = ret_luci.sys.exec('rm -rf /mnt/emmc/logsave/'..file_name)",
+                    "line_number": 365,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_2 = ret_luci.http.formvalue('file_name')",
+                "line_number": 403,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_14 = ret_io.open(ex_file)",
+                "line_number": 422,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "sink_trigger_word": "io.open",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "file_name = ~call_2",
+                    "line_number": 403,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "ex_file = '/mnt/emmc/'..type..'/'..file_name",
+                    "line_number": 420,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "~call_14 = ret_io.open(ex_file)",
+                    "line_number": 422,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_2 = ret_luci.http.formvalue('file_name')",
+                "line_number": 403,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_15 = ret_luci.sys.exec('rm -rf /mnt/emmc/'..type..'/'..file_name)",
+                "line_number": 425,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "sink_trigger_word": "sys.exec(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "file_name = ~call_2",
+                    "line_number": 403,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "~call_15 = ret_luci.sys.exec('rm -rf /mnt/emmc/'..type..'/'..file_name)",
+                    "line_number": 425,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_2 = ret_luci.http.formvalue('file_name')",
+                "line_number": 439,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_11 = ret_luci.sys.exec('head -n 1 '..ex_file)",
+                "line_number": 456,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "sink_trigger_word": "sys.exec(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "file_name = ~call_2",
+                    "line_number": 439,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "ex_file = '/mnt/emmc/'..type..'/'..file_name",
+                    "line_number": 455,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "~call_11 = ret_luci.sys.exec('head -n 1 '..ex_file)",
+                    "line_number": 456,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_2 = ret_luci.http.formvalue('file_name')",
+                "line_number": 439,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_12 = ret_luci.sys.exec('sed -i '1d' '..ex_file)",
+                "line_number": 458,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "sink_trigger_word": "sys.exec(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "file_name = ~call_2",
+                    "line_number": 439,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "ex_file = '/mnt/emmc/'..type..'/'..file_name",
+                    "line_number": 455,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "~call_12 = ret_luci.sys.exec('sed -i '1d' '..ex_file)",
+                    "line_number": 458,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_2 = ret_luci.http.formvalue('file_name')",
+                "line_number": 439,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_15 = ret_io.open(ex_file)",
+                "line_number": 460,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "sink_trigger_word": "io.open",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "file_name = ~call_2",
+                    "line_number": 439,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "ex_file = '/mnt/emmc/'..type..'/'..file_name",
+                    "line_number": 455,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "~call_15 = ret_io.open(ex_file)",
+                    "line_number": 460,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_2 = ret_luci.http.formvalue('file_name')",
+                "line_number": 439,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_16 = ret_luci.sys.exec('rm -rf /mnt/emmc/'..type..'/'..file_name)",
+                "line_number": 462,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "sink_trigger_word": "sys.exec(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "file_name = ~call_2",
+                    "line_number": 439,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "~call_16 = ret_luci.sys.exec('rm -rf /mnt/emmc/'..type..'/'..file_name)",
+                    "line_number": 462,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_2 = ret_luci.http.formvalue('file_name')",
+                "line_number": 487,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_9 = ret_io.open(ex_file)",
+                "line_number": 503,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "sink_trigger_word": "io.open",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "file_name = ~call_2",
+                    "line_number": 487,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "ex_file = '/mnt/emmc/packet/'..file_name",
+                    "line_number": 502,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "~call_9 = ret_io.open(ex_file)",
+                    "line_number": 503,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_2 = ret_luci.http.formvalue('file_name')",
+                "line_number": 487,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_10 = ret_luci.sys.exec('rm -rf /mnt/emmc/packet/'..file_name)",
+                "line_number": 511,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "sink_trigger_word": "sys.exec(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "file_name = ~call_2",
+                    "line_number": 487,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "~call_10 = ret_luci.sys.exec('rm -rf /mnt/emmc/packet/'..file_name)",
+                    "line_number": 511,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "command",
+                "line_number": 937,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_8 = ret_nixio.exec('/bin/sh', '-c', command)",
+                "line_number": 957,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "sink_trigger_word": "nixio.exec(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "~call_8 = ret_nixio.exec('/bin/sh', '-c', command)",
+                    "line_number": 957,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "command",
+                "line_number": 961,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "Framework function URL parameter",
+            "sink": {
+                "label": "~call_8 = ret_nixio.exec('/bin/sh', '-c', command)",
+                "line_number": 987,
+                "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "sink_trigger_word": "nixio.exec(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "~call_8 = ret_nixio.exec('/bin/sh', '-c', command)",
+                    "line_number": 987,
+                    "path": "/home/ubuntu/AP_Tasks/_TAU-1.0.0.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                }
+            ]
+        }
+    ]
+}

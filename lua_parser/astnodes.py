@@ -1011,3 +1011,14 @@ class ULengthOP(UnaryOp):
 
     def __init__(self, operand: Expression, **kwargs):
         super().__init__("ULengthOp", operand, **kwargs)
+
+class Require(Statement):
+    """Define the require lua statement.
+
+    Attributes:
+        module (`Expression`): Module to require.
+    """
+
+    def __init__(self, module: str, **kwargs):
+        super(Require, self).__init__("Require", **kwargs)
+        self.module: str = module

@@ -67,8 +67,10 @@ ast_Compare = (
     )
 
 class StmtVisitor(ast.NodeVisitor):
-    def __init__(self, allow_local_directory_imports=True):
+    def __init__(self, project_root,allow_local_directory_imports=True):
+        self.project_root = project_root
         self._allow_local_modules = allow_local_directory_imports
+        self.current_function=None
         super().__init__()
     
     '''def visit_SemiColon(self, node):
@@ -103,7 +105,9 @@ class StmtVisitor(ast.NodeVisitor):
                     node = self.visit(n)
             else:
                 node = self.visit(stmt)
-            
+            #if not node:
+                #print(stmt)
+                #print("???")
             #if isinstance(node, ControlFlowNode) and not isinstance(node.test, TryNode):
             if isinstance(node, ControlFlowNode):
                 self.last_control_flow_nodes.append(node.test)
@@ -157,10 +161,11 @@ class StmtVisitor(ast.NodeVisitor):
         local_definitions = self.module_definitions_stack[-1]
         parent_definitions = self.get_parent_definitions()
 
+
         if parent_definitions:
             parent_qualified_name = '.'.join(
                 parent_definitions.classes +
-                [node.name]
+                [node.name.id if isinstance(node.name, ast.Name) else node.name.idx.id]
             )
             parent_definition = ModuleDefinition(
                 parent_definitions,
@@ -169,6 +174,7 @@ class StmtVisitor(ast.NodeVisitor):
                 self.filenames[-1]
             )
             parent_definition.node = node
+            #print(parent_definition)
             parent_definitions.append_if_local_or_in_imports(parent_definition)
         if isinstance(node.name,ast.Index):
             local_qualified_name = '.'.join(local_definitions.classes +
@@ -182,6 +188,7 @@ class StmtVisitor(ast.NodeVisitor):
             None,
             self.filenames[-1]
         )
+        #print(local_definitions)
         local_definition.node = node
         local_definitions.append_if_local_or_in_imports(local_definition)
         if isinstance(node.name,ast.Index):
@@ -189,12 +196,20 @@ class StmtVisitor(ast.NodeVisitor):
         else:
             self.function_names.append(node.name.id)
     def visit_Function(self, node):
+        #print(1,node.name.id if isinstance(node.name, ast.Name) else node.name.idx.id)
+        old_function = self.current_function
+        self.current_function = node.name.id if isinstance(node.name, ast.Name) else node.name.idx.id
         self.add_to_definitions(node)
+        self.current_function = old_function
 
         return IgnoredNode()
 
     def visit_LocalFunction(self, node):
+        #print(2,node.name.id if isinstance(node.name, ast.Name) else node.name.idx.id)
+        old_function = self.current_function
+        self.current_function = node.name.id if isinstance(node.name, ast.Name) else node.name.idx.id
         self.add_to_definitions(node)
+        self.current_function = old_function
 
         return IgnoredNode()
 
@@ -222,6 +237,12 @@ class StmtVisitor(ast.NodeVisitor):
             else_connect_statements = self.stmt_star_handler(
                 orelse.body,
                 prev_node_to_avoid=self.nodes[-1]
+            )
+            if(isinstance(else_connect_statements,IgnoredNode)):
+                else_connect_statements = ConnectStatements(
+                    first_statement=test,
+                    last_statements=[],
+                    break_statements=[]
             )
             test.connect(else_connect_statements.first_statement)
             return else_connect_statements.last_statements
@@ -377,7 +398,7 @@ class StmtVisitor(ast.NodeVisitor):
         for target, value in zip(reversed(list(remaining_targets)), reversed(list(remaining_values))):
             visit(target, value)
 
-        if remaining_targets:
+        if remaining_targets and remaining_values:
             label = LabelVisitor()
             label.handle_comma_separated(remaining_targets)
             label.result += ' = '
@@ -457,6 +478,20 @@ class StmtVisitor(ast.NodeVisitor):
             else:                                  # x = 4
                 label = LabelVisitor()
                 label.visit(node)
+                #if (node.targets[0].id if isinstance(node.targets[0],ast.Name) else node.targets[0].idx.id )== "action":
+                if isinstance(node.values[0],ast.AnonymousFunction):
+                    #print(node.targets[0])
+                    if isinstance(node.targets[0],ast.Name):
+                        if not self.current_function:
+                            #print(4,node.targets[0].id)
+                            func = ast.Function(ast.Name('_anon_'+node.targets[0].id),node.values[0].args, node.values[0].body)
+                        else:
+                            func = ast.Function(ast.Name('_anon_'+self.current_function+"_"+node.targets[0].id),node.values[0].args, node.values[0].body)
+                        self.add_to_definitions(func)
+                        return IgnoredNode()
+                    #print("??")
+                    pass
+                    #print(node.values)
                 return self.append_node(AssignmentNode(
                     label.result,
                     extract_left_hand_side(node.targets[0]),
@@ -833,7 +868,8 @@ class StmtVisitor(ast.NodeVisitor):
             The ExitNode that gets attached to the CFG of the class.
         """
         module_path = module[1]
-
+        old_function = self.current_function
+        self.current_function = None
         parent_definitions = self.module_definitions_stack[-1]
         # Here, in `visit_Import` and in `visit_ImportFrom` are the only places the `import_alias_mapping` is updated
         parent_definitions.import_alias_mapping.update(import_alias_mapping)
@@ -846,7 +882,7 @@ class StmtVisitor(ast.NodeVisitor):
         # Analyse the file
         self.filenames.append(module_path)
         self.local_modules = get_directory_modules(module_path) if self._allow_local_modules else []
-        tree = generate_ast(module_path)
+        tree = generate_ast(module_path,self.project_root)
 
         # module[0] is None during e.g. "from . import foo", so we must str()
         self.nodes.append(EntryOrExitNode('Module Entry ' + str(module[0])))
@@ -856,7 +892,7 @@ class StmtVisitor(ast.NodeVisitor):
         # Done analysing, pop the module off
         self.module_definitions_stack.pop()
         self.filenames.pop()
-
+        self.current_function = old_function
         if new_module_definitions.is_init:
             for def_ in new_module_definitions.definitions:
                 module_def_alias = handle_aliases_in_init_files(
@@ -1043,7 +1079,27 @@ class StmtVisitor(ast.NodeVisitor):
             retrieve_import_alias_mapping(node.names),
             skip_init=skip_init
         )
-
+    def visit_Require(self, node):
+        l=node.module.split(".")
+        if len(l)==2 and l[0] == "luci":
+            return IgnoredNode()
+        no_file = os.path.abspath(os.path.join(self.filenames[-1], os.pardir))
+        #print(no_file)
+        name_with_dir = os.path.join(no_file, node.module.replace('.', '/'))
+        name_with_dir = name_with_dir + '.lua'
+        #print(name_with_dir)
+        if os.path.isfile(name_with_dir):
+            return self.add_module(module=(None,name_with_dir),module_or_package_name=node.module,local_names="*",import_alias_mapping={})
+        for module in self.project_modules:
+            if node.module == module[0]:
+                return self.add_module(
+                    module=module,
+                    module_or_package_name=node.module,
+                    local_names="*",
+                    import_alias_mapping={}
+                )
+        log.warning("Cannot inspect module %s", node.module)
+        return IgnoredNode()
     def visit_Import(self, node):
         for name in node.names:
             for module in self.local_modules:

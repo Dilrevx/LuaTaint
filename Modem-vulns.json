@@ -1,0 +1,549 @@
+{
+    "generated_at": "2024-11-25T05:38:51Z",
+    "vulnerabilities": [
+        {
+            "source": {
+                "label": "~call_9 = ret_luci.http.formvalue('tftpgetserver')",
+                "line_number": 93,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_24 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                "line_number": 275,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "tftpserver = ~call_9",
+                    "line_number": 93,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "tmpurl = 'tftp://'..tostring(tftpserver)..'/'..tostring(tftpfile)",
+                    "line_number": 95,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "temp_22_aclfile = tmpurl",
+                    "line_number": 99,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "aclfile = temp_22_aclfile",
+                    "line_number": 200,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "temp_23_cfgfile = aclfile",
+                    "line_number": 201,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cfgfile = temp_23_cfgfile",
+                    "line_number": 265,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cmd = 'luci-config '..mode..' ''..cfgfile..'' '..apply",
+                    "line_number": 273,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "~call_24 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                    "line_number": 275,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_10 = ret_luci.http.formvalue('getfile')",
+                "line_number": 94,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_24 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                "line_number": 275,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "tftpfile = ~call_10",
+                    "line_number": 94,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "tmpurl = 'tftp://'..tostring(tftpserver)..'/'..tostring(tftpfile)",
+                    "line_number": 95,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "temp_22_aclfile = tmpurl",
+                    "line_number": 99,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "aclfile = temp_22_aclfile",
+                    "line_number": 200,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "temp_23_cfgfile = aclfile",
+                    "line_number": 201,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cfgfile = temp_23_cfgfile",
+                    "line_number": 265,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cmd = 'luci-config '..mode..' ''..cfgfile..'' '..apply",
+                    "line_number": 273,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "~call_24 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                    "line_number": 275,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_12 = ret_luci.http.formvalue('tftploadserver')",
+                "line_number": 112,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_24 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                "line_number": 275,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "tftpserver = ~call_12",
+                    "line_number": 112,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "tmpurl = 'tftp://'..tostring(tftpserver)..'/'..tostring(tftpfile)",
+                    "line_number": 114,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "temp_22_aclfile = tmpurl",
+                    "line_number": 99,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "aclfile = temp_22_aclfile",
+                    "line_number": 200,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "temp_23_cfgfile = aclfile",
+                    "line_number": 201,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cfgfile = temp_23_cfgfile",
+                    "line_number": 265,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cmd = 'luci-config '..mode..' ''..cfgfile..'' '..apply",
+                    "line_number": 273,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "~call_24 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                    "line_number": 275,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_13 = ret_luci.http.formvalue('loadfile')",
+                "line_number": 113,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_24 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                "line_number": 275,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "tftpfile = ~call_13",
+                    "line_number": 113,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "tmpurl = 'tftp://'..tostring(tftpserver)..'/'..tostring(tftpfile)",
+                    "line_number": 114,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "temp_22_aclfile = tmpurl",
+                    "line_number": 99,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/network.lua"
+                },
+                {
+                    "label": "aclfile = temp_22_aclfile",
+                    "line_number": 200,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "temp_23_cfgfile = aclfile",
+                    "line_number": 201,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cfgfile = temp_23_cfgfile",
+                    "line_number": 265,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cmd = 'luci-config '..mode..' ''..cfgfile..'' '..apply",
+                    "line_number": 273,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "~call_24 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                    "line_number": 275,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "cmd = luci.http.formvalue('cmd') or ''",
+                "line_number": 20,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/syslog_file_buffer.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_2 = ret_luci.util.exec('/sbin/SFBaccess.sh '..cmd..' '..RegExp)",
+                "line_number": 23,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/syslog_file_buffer.lua"
+            },
+            "sink_trigger_word": "util.exec(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "~call_2 = ret_luci.util.exec('/sbin/SFBaccess.sh '..cmd..' '..RegExp)",
+                    "line_number": 23,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/syslog_file_buffer.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "RegExp = luci.http.formvalue('RegExp') or ''",
+                "line_number": 21,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/syslog_file_buffer.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_2 = ret_luci.util.exec('/sbin/SFBaccess.sh '..cmd..' '..RegExp)",
+                "line_number": 23,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/syslog_file_buffer.lua"
+            },
+            "sink_trigger_word": "util.exec(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "~call_2 = ret_luci.util.exec('/sbin/SFBaccess.sh '..cmd..' '..RegExp)",
+                    "line_number": 23,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/syslog_file_buffer.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "cmd = luci.http.formvalue('cmd') or ''",
+                "line_number": 30,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/syslog_file_buffer.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_1 = ret_luci.util.exec('/sbin/SFBaccess.sh '..cmd..' '..RegExp)",
+                "line_number": 9,
+                "path": "luci/view/admin_internal/syslog_file_buffer.htm"
+            },
+            "sink_trigger_word": "util.exec(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "~call_1 = ret_luci.util.exec('/sbin/SFBaccess.sh '..cmd..' '..RegExp)",
+                    "line_number": 9,
+                    "path": "luci/view/admin_internal/syslog_file_buffer.htm"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "RegExp = luci.http.formvalue('RegExp') or ''",
+                "line_number": 31,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/syslog_file_buffer.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_1 = ret_luci.util.exec('/sbin/SFBaccess.sh '..cmd..' '..RegExp)",
+                "line_number": 9,
+                "path": "luci/view/admin_internal/syslog_file_buffer.htm"
+            },
+            "sink_trigger_word": "util.exec(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "~call_1 = ret_luci.util.exec('/sbin/SFBaccess.sh '..cmd..' '..RegExp)",
+                    "line_number": 9,
+                    "path": "luci/view/admin_internal/syslog_file_buffer.htm"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_12 = ret_luci.http.formvalue('tftpgetserver')",
+                "line_number": 61,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_50 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                "line_number": 275,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "tftpserver = ~call_12",
+                    "line_number": 61,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "tmpurl = 'tftp://'..tostring(tftpserver)..'/'..tostring(tftpfile)",
+                    "line_number": 63,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "temp_48_cfgfile = tmpurl",
+                    "line_number": 82,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "cfgfile = temp_48_cfgfile",
+                    "line_number": 192,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "temp_49_cfgfile = cfgfile",
+                    "line_number": 193,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cfgfile = temp_49_cfgfile",
+                    "line_number": 265,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cmd = 'luci-config '..mode..' ''..cfgfile..'' '..apply",
+                    "line_number": 273,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "~call_50 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                    "line_number": 275,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_13 = ret_luci.http.formvalue('getfile')",
+                "line_number": 62,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_50 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                "line_number": 275,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "tftpfile = ~call_13",
+                    "line_number": 62,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "tmpurl = 'tftp://'..tostring(tftpserver)..'/'..tostring(tftpfile)",
+                    "line_number": 63,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "temp_48_cfgfile = tmpurl",
+                    "line_number": 82,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "cfgfile = temp_48_cfgfile",
+                    "line_number": 192,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "temp_49_cfgfile = cfgfile",
+                    "line_number": 193,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cfgfile = temp_49_cfgfile",
+                    "line_number": 265,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cmd = 'luci-config '..mode..' ''..cfgfile..'' '..apply",
+                    "line_number": 273,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "~call_50 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                    "line_number": 275,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_27 = ret_luci.http.formvalue('tftploadserver')",
+                "line_number": 100,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_50 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                "line_number": 275,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "tftpserver = ~call_27",
+                    "line_number": 100,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "tmpurl = 'tftp://'..tostring(tftpserver)..'/'..tostring(tftpfile)",
+                    "line_number": 102,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "temp_48_cfgfile = tmpurl",
+                    "line_number": 82,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "cfgfile = temp_48_cfgfile",
+                    "line_number": 192,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "temp_49_cfgfile = cfgfile",
+                    "line_number": 193,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cfgfile = temp_49_cfgfile",
+                    "line_number": 265,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cmd = 'luci-config '..mode..' ''..cfgfile..'' '..apply",
+                    "line_number": 273,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "~call_50 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                    "line_number": 275,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                }
+            ]
+        },
+        {
+            "source": {
+                "label": "~call_28 = ret_luci.http.formvalue('loadfile')",
+                "line_number": 101,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+            },
+            "source_trigger_word": "luci.http.formvalue",
+            "sink": {
+                "label": "~call_50 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                "line_number": 275,
+                "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+            },
+            "sink_trigger_word": "io.popen(",
+            "type": "Vulnerability",
+            "reassignment_nodes": [
+                {
+                    "label": "tftpfile = ~call_28",
+                    "line_number": 101,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "tmpurl = 'tftp://'..tostring(tftpserver)..'/'..tostring(tftpfile)",
+                    "line_number": 102,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "temp_48_cfgfile = tmpurl",
+                    "line_number": 82,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/controller/admin/system.lua"
+                },
+                {
+                    "label": "cfgfile = temp_48_cfgfile",
+                    "line_number": 192,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "temp_49_cfgfile = cfgfile",
+                    "line_number": 193,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cfgfile = temp_49_cfgfile",
+                    "line_number": 265,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "cmd = 'luci-config '..mode..' ''..cfgfile..'' '..apply",
+                    "line_number": 273,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                },
+                {
+                    "label": "~call_50 = ret_io.popen(cmd..';'..retCodeCmd, 'r')",
+                    "line_number": 275,
+                    "path": "/home/ubuntu/AP_Tasks/_Modem_firmware_5.8.5.bin.extracted/squashfs-root/usr/lib/lua/luci/dt30/system.lua"
+                }
+            ]
+        }
+    ]
+}

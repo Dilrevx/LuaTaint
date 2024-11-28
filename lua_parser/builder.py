@@ -579,6 +579,7 @@ class Builder:
 
                 if isinstance(tail, Call):
                     tail.func = root
+
                 elif isinstance(tail, Index):
                     tail.value = root
                 elif isinstance(tail, Invoke):
@@ -596,7 +597,8 @@ class Builder:
                 tail = self.parse_tail()
                 if tail:
                     self.handle_hidden_right()
-
+            if isinstance(root, Call) and isinstance(root.func, Name) and root.func.id == "require" and isinstance(root.args[0],String):
+                return Require(root.args[0].s)
             self.handle_hidden_right()
             return root
 

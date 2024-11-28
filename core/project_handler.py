@@ -39,7 +39,7 @@ def get_modules(path, prepend_module_root=True):
     modules = list()
     for root, directories, filenames in os.walk(path):
         for filename in filenames:
-            if _is_python_file(filename):
+            if _is_lua_file(filename):
                 directory = os.path.dirname(
                     os.path.realpath(
                         os.path.join(
@@ -72,5 +72,9 @@ def get_modules(path, prepend_module_root=True):
 
 def _is_python_file(path):
     if os.path.splitext(path)[1] == '.py':
+        return True
+    return False
+def _is_lua_file(path):
+    if os.path.splitext(path)[1] == '.lua':
         return True
     return False

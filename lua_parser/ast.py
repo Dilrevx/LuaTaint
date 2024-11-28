@@ -80,6 +80,7 @@ class NodeVisitor():
         return visitor(node)
 
     def generic_visit(self, node):
+        #print("????")
         """Called if no explicit visitor function exists for a node."""
         children = [attr for attr in node.__dict__.keys() if not attr.startswith("_")]
         for child in children:

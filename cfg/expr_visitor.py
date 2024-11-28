@@ -41,11 +41,12 @@ class ExprVisitor(StmtVisitor):
         project_modules,
         local_modules,
         filename,
+        project_root,
         module_definitions=None,
         allow_local_directory_imports=True
     ):
         """Create an empty CFG."""
-        super().__init__(allow_local_directory_imports=allow_local_directory_imports)
+        super().__init__(project_root,allow_local_directory_imports=allow_local_directory_imports)
         self.project_modules = project_modules
         self.local_modules = local_modules if self._allow_local_modules else []
         self.filenames = [filename]
@@ -60,6 +61,8 @@ class ExprVisitor(StmtVisitor):
         self.prev_nodes_to_avoid = list()
         self.last_control_flow_nodes = list()
         self._within_mutating_call = False
+        self.saved_function=dict()
+        self.saved_return=dict()
 
         # Are we already in a module?
         if module_definitions:
@@ -98,10 +101,13 @@ class ExprVisitor(StmtVisitor):
         self.function_names.append(node.name)
         self.function_return_stack.append(node.name)
 
+        old_function = self.current_function
+        self.current_function = node.name.id if isinstance(node.name, ast.Name) else node.name.idx.id
         entry_node = self.append_node(EntryOrExitNode('Entry function'))
 
         module_statements = self.stmt_star_handler(node.body.body)
         exit_node = self.append_node(EntryOrExitNode('Exit function'))
+        self.current_function = old_function
 
         if isinstance(module_statements, IgnoredNode):
             entry_node.connect(exit_node)
@@ -234,6 +240,8 @@ class ExprVisitor(StmtVisitor):
             return_value_of_nested_call = None
             if isinstance(call_arg, ast.Call):
                 return_value_of_nested_call = self.visit(call_arg)
+                #print(call_arg)
+
                 restore_node = RestoreNode(
                     def_arg_temp_name + ' = ' + return_value_of_nested_call.left_hand_side,
                     def_arg_temp_name,
@@ -273,6 +281,7 @@ class ExprVisitor(StmtVisitor):
                     if isinstance(return_value_of_nested_call, BBorBInode):
                         first_node.inner_most_call = return_value_of_nested_call
                     else:
+                        #print(return_value_of_nested_call)
                         first_node.inner_most_call = return_value_of_nested_call.first_node
                 # We purposefully should not set this as the first_node of return_value_of_nested_call, last makes sense
                 last_return_value_of_nested_call = return_value_of_nested_call
@@ -338,23 +347,42 @@ class ExprVisitor(StmtVisitor):
         """
         len_before_visiting_func = len(self.nodes)
         previous_node = self.nodes[-1]
-        entry_node = self.append_node(EntryOrExitNode('Function Entry ' +
-                                                      definition.name))
-        if not first_node:
-            first_node = entry_node
-        self.connect_if_allowed(previous_node, entry_node)
-
-        function_body_connect_statements = self.stmt_star_handler(definition.node.body.body)
-        if not isinstance(function_body_connect_statements, IgnoredNode):
-            entry_node.connect(function_body_connect_statements.first_statement)
-            exit_node = self.append_node(EntryOrExitNode('Exit ' + definition.name))
-            exit_node.connect_predecessors(function_body_connect_statements.last_statements)
-            the_new_nodes = self.nodes[len_before_visiting_func:]
-            return_connection_handler(the_new_nodes, exit_node)
-        else:
-            exit_node = self.append_node(EntryOrExitNode('Exit ' + definition.name))
-            the_new_nodes = self.nodes[len_before_visiting_func:]
-        return (the_new_nodes, first_node)
+        if not isinstance(definition,list):
+            definition=[definition]
+        new_nodes=[]
+        for d in definition:
+            if d in self.saved_function:
+                entry_node = self.saved_function[d][0]
+                
+            else:
+                entry_node = self.append_node(EntryOrExitNode('Function Entry ' +
+                                                      d.name))
+            if not first_node:
+                first_node = entry_node
+            
+            self.connect_if_allowed(previous_node, entry_node)
+            if d in self.saved_function:
+                the_new_nodes = self.saved_function[d][1]
+            else:
+                function_body_connect_statements = self.stmt_star_handler(d.node.body.body)
+                if not isinstance(function_body_connect_statements, IgnoredNode):
+                    entry_node.connect(function_body_connect_statements.first_statement)
+                    if d in self.saved_function:
+                        exit_node = self.saved_function[d][2]
+                    else:
+                        exit_node = self.append_node(EntryOrExitNode('Exit ' + d.name))
+                    exit_node.connect_predecessors(function_body_connect_statements.last_statements)
+                    the_new_nodes = self.nodes[len_before_visiting_func:]
+                    return_connection_handler(the_new_nodes, exit_node)
+                else:
+                    if d in self.saved_function:
+                        exit_node = self.saved_function[d][2]
+                    else:
+                        exit_node = self.append_node(EntryOrExitNode('Exit ' + d.name))
+                    the_new_nodes = self.nodes[len_before_visiting_func:]
+                #self.saved_function[d]=(entry_node,the_new_nodes)
+            new_nodes.extend(the_new_nodes)
+        return (new_nodes, first_node)
 
     def restore_saved_local_scope(
         self,
@@ -468,14 +496,18 @@ class ExprVisitor(StmtVisitor):
         """
         self.function_call_index += 1
         saved_function_call_index = self.function_call_index
-
-        def_node = definition.node
-
+        old_function = self.current_function
+        self.current_function = definition[0].name if isinstance(definition,list) else definition.name
+        def_node = definition[0].node if isinstance(definition,list) else definition.node
+        '''
         saved_variables, first_node = self.save_local_scope(
             def_node.line,
             saved_function_call_index
         )
-
+        '''
+        saved_variables = []
+        first_node = None
+        #'''
         args_mapping, first_node = self.save_def_args_in_temp(
             call_node.args,
             Arguments(def_node.args),
@@ -483,7 +515,8 @@ class ExprVisitor(StmtVisitor):
             saved_function_call_index,
             first_node
         )
-        self.filenames.append(definition.path)
+        #'''
+        self.filenames.append(definition[0].path if isinstance(definition,list) else definition.path)
         self.create_local_scope_from_def_args(
             call_node.args,
             Arguments(def_node.args),
@@ -495,11 +528,13 @@ class ExprVisitor(StmtVisitor):
             first_node
         )
         self.filenames.pop()  # Should really probably move after restore_saved_local_scope!!!
+        #'''
         self.restore_saved_local_scope(
             saved_variables,
             args_mapping,
             def_node.line
         )
+        #'''
         self.return_handler(
             call_node,
             function_nodes,
@@ -508,18 +543,19 @@ class ExprVisitor(StmtVisitor):
         )
         self.function_return_stack.pop()
         self.function_definition_stack.pop()
-
+        self.current_function = old_function
         return self.nodes[-1]
 
     def visit_Call(self, node):
+        #print(3,self.current_function)
         _id = get_call_names_as_string(node.func)
         local_definitions = self.module_definitions_stack[-1]
 
         alias = handle_aliases_in_calls(_id, local_definitions.import_alias_mapping)
         if alias:
-            definition = local_definitions.get_definition(alias)
+            definition = local_definitions.get_definition(alias,self.current_function)
         else:
-            definition = local_definitions.get_definition(_id)
+            definition = local_definitions.get_definition(_id,self.current_function)
 
         # e.g. "request.args.get" -> "get"
         last_attribute = _id.rpartition('.')[-1]
@@ -528,6 +564,11 @@ class ExprVisitor(StmtVisitor):
             if definition in self.function_definition_stack:
                 log.debug("Recursion encountered in function %s", _id)
                 return self.add_blackbox_or_builtin_call(node, blackbox=True)
+            if isinstance(definition,list):
+                self.undecided = False
+                self.function_return_stack.append(_id)
+                self.function_definition_stack.append(definition)
+                return self.process_function(node, definition)
             if isinstance(definition.node, (ast.Function,ast.LocalFunction)):
                 self.undecided = False
                 self.function_return_stack.append(_id)
@@ -538,6 +579,7 @@ class ExprVisitor(StmtVisitor):
                                 'ClassDef, cannot add the function ')
         elif last_attribute not in BUILTINS:
             # Mark the call as a blackbox because we don't have the definition
+            #print(_id,"Not found")
             return self.add_blackbox_or_builtin_call(node, blackbox=True)
         return self.add_blackbox_or_builtin_call(node, blackbox=False)
 

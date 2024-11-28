@@ -5,7 +5,8 @@ import logging
 
 from cfg import make_cfg
 from core.ast_helper import Arguments
-from core.module_definitions import project_definitions
+#from core.module_definitions import project_definitions
+import core.module_definitions
 from core.node_types import (
     AssignmentNode,
     TaintedNode
@@ -16,7 +17,7 @@ from web_frameworks.framework_helper import (
 
 log = logging.getLogger(__name__)
 
-
+handled=[]
 class FrameworkAdaptor():
     """An engine that uses the template pattern to find all
     entry points in a framework and then taints their arguments.
@@ -27,12 +28,14 @@ class FrameworkAdaptor():
         cfg_list,
         project_modules,
         local_modules,
-        is_entry_call_function
+        is_entry_call_function,
+        project_root
     ):
         self.cfg_list = cfg_list
         self.project_modules = project_modules
         self.local_modules = local_modules
         self.is_entry_call_function = is_entry_call_function
+        self.project_root = project_root
         self.run()
 
     def get_func_cfg_with_tainted_args(self, definition):
@@ -43,6 +46,7 @@ class FrameworkAdaptor():
             self.project_modules,
             self.local_modules,
             definition.path,
+            self.project_root,
             definition.module_definitions
         )
 
@@ -89,7 +93,8 @@ class FrameworkAdaptor():
             if call_list != []:
                 call_list1.extend(call_list)'''
         for definition in _get_func_nodes():
-            if self.is_entry_call_function(definition.node):
+            if self.is_entry_call_function(definition.node) and definition not in handled:
+                handled.append(definition)
                 yield self.get_func_cfg_with_tainted_args(definition)
 
     def run(self):
@@ -98,9 +103,10 @@ class FrameworkAdaptor():
         for _ in self.cfg_list:
             function_cfgs.extend(self.find_entry_functions_taint_args())
         self.cfg_list.extend(function_cfgs)
+        core.module_definitions.project_definitionsproject_definitions=dict()
 
 
 def _get_func_nodes():
     """Get all function nodes."""
-    return [definition for definition in project_definitions.values()
+    return [definition for definition in core.module_definitions.project_definitions.values()
             if isinstance(definition.node, (ast.Function,ast.LocalFunction))]

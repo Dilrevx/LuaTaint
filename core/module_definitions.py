@@ -28,10 +28,10 @@ class ModuleDefinition():
         self.path = path
 
         if parent_module_name:
-            if isinstance(parent_module_name, ast.alias):
-                self.name = parent_module_name.name + '.' + name
-            else:
-                self.name = parent_module_name + '.' + name
+            #if isinstance(parent_module_name, ast.alias):
+            #    self.name = parent_module_name.name + '.' + name
+            #else:
+            self.name = parent_module_name + '.' + name
         else:
             self.name = name
 
@@ -97,11 +97,25 @@ class ModuleDefinitions():
         if definition not in project_definitions:
             project_definitions[definition.name] = definition
 
-    def get_definition(self, name):
+    def get_definition(self, name, func_name):
         """Get definitions by name."""
         for definition in self.definitions:
             if definition.name == name:
                 return definition
+        for definition in self.definitions:
+            if definition.name.endswith('.'+name):
+                #print(definition.name)
+                return definition
+        anno=[]
+        for definition in self.definitions:
+            if func_name:
+                if definition.name == '_anon_'+func_name+'_'+name:
+                    anno.append(definition)
+            else:
+                if definition.name == '_anon_'+name:
+                    return definition
+        if anno:
+            return anno
 
     def set_definition_node(self, node, name):
         """Set definition by name."""
@@ -115,13 +129,13 @@ class ModuleDefinitions():
             module = self.module_name
 
         if self.definitions:
-            if isinstance(module, ast.alias):
-                return (
-                    'Definitions: "' + '", "'
-                    .join([str(definition) for definition in self.definitions]) +
-                    '" and module_name: ' + module.name +
-                    ' and filename: ' + str(self.filename) +
-                    ' and is_init: ' + str(self.is_init) + '\n')
+            #if isinstance(module, ast.alias):
+            #    return (
+            #        'Definitions: "' + '", "'
+            #        .join([str(definition) for definition in self.definitions]) +
+            #        '" and module_name: ' + module.name +
+            #        ' and filename: ' + str(self.filename) +
+            #        ' and is_init: ' + str(self.is_init) + '\n')
             return (
                 'Definitions: "' + '", "'
                 .join([str(definition) for definition in self.definitions]) +
@@ -129,12 +143,12 @@ class ModuleDefinitions():
                 ' and filename: ' + str(self.filename) +
                 ' and is_init: ' + str(self.is_init) + '\n')
         else:
-            if isinstance(module, ast.alias):
-                return (
-                    'import_names is ' + str(self.import_names) +
-                    ' No Definitions, module_name: ' + str(module.name) +
-                    ' and filename: ' + str(self.filename) +
-                    ' and is_init: ' + str(self.is_init) + '\n')
+            #if isinstance(module, ast.alias):
+            #    return (
+            #        'import_names is ' + str(self.import_names) +
+            #        ' No Definitions, module_name: ' + str(module.name) +
+            #        ' and filename: ' + str(self.filename) +
+            #        ' and is_init: ' + str(self.is_init) + '\n')
             return (
                 'import_names is ' + str(self.import_names) +
                 ' No Definitions, module_name: ' + str(module) +

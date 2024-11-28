@@ -86,6 +86,7 @@ def fully_qualify_alias_labels(label, aliases):
     >>> fully_qualify_alias_labels('myos.mycall', {'myos':'os'})
     'os.mycall'
     """
+    #print(label, aliases)
     for alias, full_name in aliases.items():
         if label == alias:
             return full_name

@@ -30,6 +30,7 @@ def make_cfg(
     project_modules,
     local_modules,
     filename,
+    project_root,
     module_definitions=None,
     allow_local_directory_imports=True
 ):
@@ -38,6 +39,7 @@ def make_cfg(
         project_modules,
         local_modules,
         filename,
+        project_root,
         module_definitions,
         allow_local_directory_imports
     )

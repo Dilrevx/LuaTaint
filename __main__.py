@@ -3,8 +3,10 @@ import logging
 import os
 import sys
 import time
+import re
 import psutil
 from collections import defaultdict
+import tqdm
 
 from analysis.constraint_table import initialize_constraint_table
 from analysis.fixed_point import analyse
@@ -28,7 +30,6 @@ from web_frameworks import (
     is_function,
     is_function_without_leading_
 )
-
 log = logging.getLogger(__name__)
 
 def discover_files(targets, excluded_files, recursive=False):
@@ -55,6 +56,8 @@ def retrieve_nosec_lines(
 ):
     file = open(path, 'r',encoding='utf-8', errors = 'ignore')
     lines = file.readlines()
+
+
     return set(
         lineno for
         (lineno, line) in enumerate(lines, start=1)
@@ -82,9 +85,11 @@ def main(command_line_args=sys.argv[1:]):  # noqa: C901
     if args.project_root:
         directory = os.path.normpath(args.project_root)
         project_modules = get_modules(directory, prepend_module_root=args.prepend_module_root)
+        #print(project_modules)
     
     cfg_list = list()
-    for path in sorted(files):
+    results = list()
+    for path in tqdm.tqdm(sorted(files)):
         #cfg_list = list()
         log.info("Processing %s", path)
         if not args.ignore_nosec:
@@ -95,13 +100,14 @@ def main(command_line_args=sys.argv[1:]):  # noqa: C901
             project_modules = get_modules(directory, prepend_module_root=args.prepend_module_root)
 
         local_modules = get_directory_modules(directory)
-        tree = generate_ast(path)
-
+        tree = generate_ast(path,args.project_root)
+        
         cfg = make_cfg(
             tree,
             project_modules,
             local_modules,
             path,
+            args.project_root,
             allow_local_directory_imports=args.allow_local_imports
         )
         cfg_list = [cfg]
@@ -113,33 +119,36 @@ def main(command_line_args=sys.argv[1:]):  # noqa: C901
             cfg_list,
             project_modules,
             local_modules,
-            framework_entry_criteria
+            framework_entry_criteria,
+            args.project_root
         )
+        print(len(cfg_list))
+    #'''
+        initialize_constraint_table(cfg_list)
+        log.info("Analysing")
+        analyse(cfg_list)
+        log.info("Finding vulnerabilities")
     
-    initialize_constraint_table(cfg_list)
-    log.info("Analysing")
-    analyse(cfg_list)
-    log.info("Finding vulnerabilities")
-    
-    #vulnerabilities = list()
-    vulnerabilities = find_vulnerabilities(
-        cfg_list,
-        args.blackbox_mapping_file,
-        args.trigger_word_file,
-        args.interactive,
-        nosec_lines
-    )
-
-    filter_non_external_inputs(vulnerabilities)
+        vulnerabilities = find_vulnerabilities(
+            cfg_list,
+            args.blackbox_mapping_file,
+            args.trigger_word_file,
+            args.interactive,
+            nosec_lines
+        )
+        filter_non_external_inputs(vulnerabilities)
+        print(vulnerabilities)
+        results.extend(vulnerabilities)
 
     if args.baseline:
-        vulnerabilities = get_vulnerabilities_not_in_baseline(
-            vulnerabilities,
+        results = get_vulnerabilities_not_in_baseline(
+            results,
             args.baseline
         )
         
-    args.formatter.report(vulnerabilities, args.output_file, args.only_unsanitised)
-    
+    args.formatter.report(results, args.output_file, args.only_unsanitised)
+    #'''
+
     '''has_unsanitised_vulnerabilities = any(
         not isinstance(v, SanitisedVulnerability)
         for v in vulnerabilities

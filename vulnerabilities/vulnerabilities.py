@@ -3,7 +3,7 @@
 from lua_parser import ast
 import json
 from collections import defaultdict
-
+import tqdm
 from analysis.definition_chains import build_def_use_chain
 from analysis.lattice import Lattice
 from core.node_types import (
@@ -148,7 +148,16 @@ def find_triggers(
     trigger_nodes = list()
     for node in nodes:
         if node.line_number not in nosec_lines:
-            trigger_nodes.extend(iter(label_contains(node, trigger_words)))
+            for trigger in trigger_words:
+                if trigger.trigger_word in node.label:
+                    add=True
+                    for tnode in trigger_nodes:
+                        if trigger.trigger_word in tnode.cfg_node.label and tnode.cfg_node.line_number == node.line_number:
+                            add=False
+                            break
+                    if add:
+                        trigger_nodes.append(TriggerNode(trigger, node))
+            #trigger_nodes.extend(iter(label_contains(node, trigger_words)))
     return trigger_nodes
 
 
@@ -266,7 +275,7 @@ def get_sink_args_which_propagate(sink, ast_node):
 
     return sink_args
 
-
+maxlen = 0
 def get_vulnerability_chains(current_node, sink, def_use, chain=[], visited=None):
     """Traverses the def-use graph to find all paths from source to sink that cause a vulnerability.
 
@@ -276,6 +285,16 @@ def get_vulnerability_chains(current_node, sink, def_use, chain=[], visited=None
         def_use(dict):
         chain(list(Node)): A path of nodes between source and sink.
     """
+    global maxlen
+    if len(chain) > 10:
+        return
+    if len(chain) > maxlen:
+        #print(len(chain))
+        maxlen = len(chain)
+        #print(chain)
+        #print("????")
+
+        #print(def_use[chain[-1]])
     if visited is None:
         visited = set()  # Initialize visited set in the first call
     visited.add(current_node)
@@ -321,7 +340,8 @@ def how_vulnerable(
     Returns:
         A VulnerabilityType depending on how vulnerable the chain is.
     """
-    for i, current_node in enumerate(chain):
+    for i, current_node in enumerate(chain[:-1]):
+        #print(current_node)
         if current_node in sanitiser_nodes:
             vuln_deets['sanitiser'] = current_node
             vuln_deets['confident'] = True
@@ -348,10 +368,12 @@ def how_vulnerable(
                     return VulnerabilityType.FALSE, interactive
                 blackbox_mapping['propagates'].append(current_node.func_name)
             else:
+                #print(current_node.func_name)
                 vuln_deets['unknown_assignment'] = current_node
                 return VulnerabilityType.UNKNOWN, interactive
 
     if potential_sanitiser:
+        print(chain)
         vuln_deets['sanitiser'] = potential_sanitiser
         vuln_deets['confident'] = False
         return VulnerabilityType.SANITISED, interactive
@@ -436,7 +458,8 @@ def get_vulnerability(
                         sanitiser_nodes.add(cfg_node)
                     elif isinstance(cfg_node, IfNode):
                         potential_sanitiser = cfg_node
-
+        #print(source,sink)
+        #'''
         def_use = build_def_use_chain(
             cfg.nodes,
             lattice
@@ -460,8 +483,8 @@ def get_vulnerability(
                 continue
 
             vuln_deets['reassignment_nodes'] = chain
-
             return vuln_factory(vulnerability_type)(**vuln_deets), interactive
+        #'''
 
     return None, interactive
 
@@ -492,6 +515,7 @@ def find_vulnerabilities_in_cfg(
         lattice,
         nosec_lines[cfg.filename]
     )
+    #print(cfg.filename,triggers.sinks,triggers.sources)
     for sink in triggers.sinks:
         for source in triggers.sources:
             vulnerability, interactive = get_vulnerability(
@@ -529,7 +553,9 @@ def find_vulnerabilities(
 
     with open(blackbox_mapping_file) as infile:
         blackbox_mapping = json.load(infile)
-    for cfg in cfg_list:
+    for cfg in tqdm.tqdm(cfg_list):
+        #print(cfg)
+        #print(cfg.filename)
         find_vulnerabilities_in_cfg(
             cfg,
             definitions,
@@ -539,6 +565,7 @@ def find_vulnerabilities(
             interactive,
             nosec_lines
         )
+        #print(vulnerabilities)
 
     if interactive:
         with open(blackbox_mapping_file, 'w') as outfile:
